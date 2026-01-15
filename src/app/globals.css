@@ -55,6 +55,25 @@
            active:bg-warehouse-gray-600;
   }
 
+  /* Smaller keypad button for compact layout */
+  .keypad-button-sm {
+    @apply flex items-center justify-center 
+           min-h-[3.5rem] min-w-[3.5rem] 
+           rounded-xl font-semibold
+           bg-warehouse-gray-800 text-warehouse-white
+           text-3xl font-mono
+           hover:bg-warehouse-gray-700
+           active:bg-warehouse-gray-600 active:scale-95
+           transition-all duration-100 ease-out
+           disabled:opacity-50 disabled:cursor-not-allowed
+           select-none touch-manipulation;
+  }
+
+  /* Pressed/highlighted state for keypad buttons (matches hover) */
+  .keypad-button-pressed {
+    @apply bg-warehouse-gray-700 scale-95;
+  }
+
   /* Primary action button (orange) */
   .action-button-primary {
     @apply kiosk-button
@@ -99,16 +118,18 @@
 
   /* PIN display digit */
   .pin-digit {
-    @apply w-12 h-16 md:w-16 md:h-20
+    @apply w-10 h-14 md:w-12 md:h-16
            flex items-center justify-center
            bg-warehouse-gray-800 rounded-lg
-           text-kiosk-xl font-mono
-           border-2 border-warehouse-gray-600;
+           text-2xl font-mono
+           border-2 border-warehouse-gray-600
+           transition-all duration-150;
   }
 
   .pin-digit-filled {
     @apply border-warehouse-orange bg-warehouse-gray-700;
   }
+
 
   /* Task row in production log */
   .task-row {
