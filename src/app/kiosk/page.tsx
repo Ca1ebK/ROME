@@ -351,7 +351,7 @@ export default function KioskPage() {
 
       {/* Footer */}
       <footer className="py-4 mt-auto text-center border-t border-warehouse-gray-800">
-        <p className="text-xs text-warehouse-gray-600">
+        <p className="text-xs text-warehouse-gray-600 mb-2">
           {new Date().toLocaleDateString("en-US", {
             weekday: "long",
             year: "numeric",
@@ -359,6 +359,12 @@ export default function KioskPage() {
             day: "numeric",
           })}
         </p>
+        <a
+          href="/login"
+          className="text-xs text-warehouse-gray-500 hover:text-warehouse-orange transition-colors"
+        >
+          View your hours & request time off →
+        </a>
       </footer>
     </main>
   );
