@@ -1,5 +1,4 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/types/database";
 
 // ============================================
 // Demo Mode - Works without Supabase
@@ -26,10 +25,11 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // Supabase Client (only created if configured)
 // ============================================
 
-let supabase: SupabaseClient<Database> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let supabase: SupabaseClient<any> | null = null;
 
 if (!DEMO_MODE) {
-  supabase = createClient<Database>(
+  supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
@@ -129,16 +129,19 @@ export async function getWorkerStatus(workerId: string) {
     return { isClockedIn: false, clockInTime: null, lastPunch: null };
   }
 
+  // Cast to expected type
+  const punchData = data as { type: "IN" | "OUT"; timestamp: string };
+
   // If clocked in, get the clock-in time
-  let clockInTime = null;
-  if (data.type === "IN") {
-    clockInTime = data.timestamp;
+  let clockInTime: string | null = null;
+  if (punchData.type === "IN") {
+    clockInTime = punchData.timestamp;
   }
 
   return {
-    isClockedIn: data.type === "IN",
+    isClockedIn: punchData.type === "IN",
     clockInTime,
-    lastPunch: data,
+    lastPunch: punchData,
   };
 }
 
@@ -164,7 +167,7 @@ export async function clockIn(workerId: string) {
     .from("punches")
     .insert({
       worker_id: workerId,
-      type: "IN",
+      type: "IN" as const,
     })
     .select()
     .single();
@@ -206,7 +209,7 @@ export async function clockOut(workerId: string, clockInTime: string | null) {
     .from("punches")
     .insert({
       worker_id: workerId,
-      type: "OUT",
+      type: "OUT" as const,
     })
     .select()
     .single();
