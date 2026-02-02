@@ -55,7 +55,7 @@ export default function NewTimeOffRequestPage() {
       });
 
       if (!result.success) {
-        toast.error(result.error || "Failed to submit request");
+        toast.error("Failed to submit request");
         return;
       }
 
