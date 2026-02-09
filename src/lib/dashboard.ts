@@ -183,6 +183,18 @@ export interface PunchPair {
   totalMs: number;
 }
 
+/**
+ * Get the local date string (YYYY-MM-DD) for a given timestamp.
+ * Avoids timezone bugs from using .split("T")[0] which gives UTC date.
+ */
+function toLocalDateString(timestamp: string): string {
+  const d = new Date(timestamp);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export async function getPunchHistory(workerId: string, days: number = 14) {
   const DEMO_MODE = isDemoMode();
   const supabase = getSupabaseClient();
@@ -205,7 +217,7 @@ export async function getPunchHistory(workerId: string, days: number = 14) {
         const clockOut = new Date(date);
         clockOut.setHours(16, Math.floor(Math.random() * 45), 0, 0);
         history.push({
-          date: date.toISOString().split("T")[0],
+          date: toLocalDateString(clockIn.toISOString()),
           clockIn: clockIn.toISOString(),
           clockOut: clockOut.toISOString(),
           totalMs: clockOut.getTime() - clockIn.getTime(),
@@ -227,31 +239,51 @@ export async function getPunchHistory(workerId: string, days: number = 14) {
     return { success: false, error: "Failed to load punch history." };
   }
 
-  // Group punches into pairs by date
-  const punchMap = new Map<string, { ins: string[]; outs: string[] }>();
+  // Group punches by LOCAL date (not UTC)
+  const punchMap = new Map<string, { type: string; timestamp: string }[]>();
   
   for (const punch of data || []) {
-    const date = punch.timestamp.split("T")[0];
-    if (!punchMap.has(date)) {
-      punchMap.set(date, { ins: [], outs: [] });
+    const localDate = toLocalDateString(punch.timestamp);
+    if (!punchMap.has(localDate)) {
+      punchMap.set(localDate, []);
     }
-    const entry = punchMap.get(date)!;
-    if (punch.type === "IN") {
-      entry.ins.push(punch.timestamp);
-    } else {
-      entry.outs.push(punch.timestamp);
-    }
+    punchMap.get(localDate)!.push({ type: punch.type, timestamp: punch.timestamp });
   }
 
+  // Debug: log raw punch data
+  console.log("[ROME Debug] Raw punches from Supabase:", (data || []).map((p: { type: string; timestamp: string }) => ({ type: p.type, timestamp: p.timestamp, localDate: toLocalDateString(p.timestamp) })));
+
+  // Pair punches sequentially: each IN is matched with the next OUT
   const history: PunchPair[] = [];
-  for (const [date, { ins, outs }] of punchMap) {
-    const clockIn = ins[0] || null;
-    const clockOut = outs[outs.length - 1] || null;
+  for (const [date, punches] of punchMap) {
     let totalMs = 0;
-    if (clockIn && clockOut) {
-      totalMs = new Date(clockOut).getTime() - new Date(clockIn).getTime();
+    let firstIn: string | null = null;
+    let lastOut: string | null = null;
+    let currentIn: string | null = null;
+
+    for (const punch of punches) {
+      if (punch.type === "IN") {
+        if (!firstIn) firstIn = punch.timestamp;
+        currentIn = punch.timestamp;
+      } else if (punch.type === "OUT") {
+        lastOut = punch.timestamp;
+        if (currentIn) {
+          // Valid IN→OUT pair: add the duration
+          const duration = new Date(punch.timestamp).getTime() - new Date(currentIn).getTime();
+          if (duration > 0) {
+            totalMs += duration;
+          }
+          currentIn = null;
+        }
+      }
     }
-    history.push({ date, clockIn, clockOut, totalMs });
+
+    history.push({
+      date,
+      clockIn: firstIn,
+      clockOut: lastOut,
+      totalMs: Math.max(totalMs, 0), // Never negative
+    });
   }
 
   // Sort by date descending
@@ -261,12 +293,14 @@ export async function getPunchHistory(workerId: string, days: number = 14) {
 }
 
 export async function getWeeklyHours(workerId: string) {
-  // Get start of current week (Monday)
+  // Get start of current week (Monday) as a local date string for comparison
   const now = new Date();
   const dayOfWeek = now.getDay();
   const startOfWeek = new Date(now);
   startOfWeek.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
   startOfWeek.setHours(0, 0, 0, 0);
+  // Use local date string for comparison to avoid UTC/local timezone mismatch
+  const startOfWeekStr = toLocalDateString(startOfWeek.toISOString());
 
   const result = await getPunchHistory(workerId, 7);
   
@@ -277,18 +311,26 @@ export async function getWeeklyHours(workerId: string) {
   let totalMs = 0;
   const dailyHours: Record<string, number> = {};
 
+  console.log("[ROME Debug] Weekly hours calc - startOfWeekStr:", startOfWeekStr, "history:", result.history);
+
   for (const punch of result.history) {
-    const punchDate = new Date(punch.date);
-    if (punchDate >= startOfWeek) {
+    // Compare date strings directly (both are local YYYY-MM-DD format)
+    if (punch.date >= startOfWeekStr) {
       totalMs += punch.totalMs;
-      const dayName = punchDate.toLocaleDateString("en-US", { weekday: "short" });
+      // Parse the local date string to get the correct day name
+      const [year, month, day] = punch.date.split("-").map(Number);
+      const localDate = new Date(year, month - 1, day);
+      const dayName = localDate.toLocaleDateString("en-US", { weekday: "short" });
       dailyHours[dayName] = (dailyHours[dayName] || 0) + punch.totalMs / (1000 * 60 * 60);
     }
   }
 
+  const totalHours = Math.max(totalMs / (1000 * 60 * 60), 0);
+  console.log("[ROME Debug] Weekly result - totalMs:", totalMs, "totalHours:", totalHours, "dailyHours:", dailyHours);
+
   return {
-    totalMs,
-    totalHours: totalMs / (1000 * 60 * 60),
+    totalMs: Math.max(totalMs, 0),
+    totalHours,
     dailyHours,
   };
 }

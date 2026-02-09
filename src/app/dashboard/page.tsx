@@ -98,9 +98,10 @@ export default function DashboardHome() {
     });
   };
 
-  // Format date for display
+  // Format date for display (parse as local date, not UTC)
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
     return date.toLocaleDateString("en-US", {
       weekday: "short",
       month: "short",
@@ -133,7 +134,7 @@ export default function DashboardHome() {
 
           <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, my: 2 }}>
             <Typography variant="h3" fontWeight={700}>
-              {weeklyHours.totalHours.toFixed(1)}
+              {Math.max(weeklyHours.totalHours, 0).toFixed(1)}
             </Typography>
             <Typography variant="h6" color="text.secondary">
               hrs
