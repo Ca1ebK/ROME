@@ -2,36 +2,37 @@
 
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 
-// M3 Color Palette - Default Material Design 3 (Blue/Purple baseline)
-// Based on Google's default M3 dark theme
+// M3 Color Palette - Scholastic Red theme
+// Primary derived from Scholastic brand red #E6000D
+// Generated following Material Design 3 dark theme guidelines
 const m3Colors = {
-  // Primary - M3 Default Blue
+  // Primary - Scholastic Red (toned for dark theme readability)
   primary: {
-    main: "#D0BCFF",
-    light: "#EADDFF",
-    dark: "#6750A4",
-    contrastText: "#381E72",
+    main: "#FFB4AB",
+    light: "#FFDAD6",
+    dark: "#C00008",
+    contrastText: "#690005",
   },
-  // Secondary
+  // Secondary - Warm neutral (complements red)
   secondary: {
-    main: "#CCC2DC",
-    light: "#E8DEF8",
-    dark: "#625B71",
-    contrastText: "#332D41",
+    main: "#E7BDB6",
+    light: "#FFDAD4",
+    dark: "#5D3F3B",
+    contrastText: "#442B27",
   },
-  // Tertiary
+  // Tertiary - Warm gold accent
   tertiary: {
-    main: "#EFB8C8",
-    light: "#FFD8E4",
-    dark: "#7D5260",
-    contrastText: "#492532",
+    main: "#DEC48C",
+    light: "#FBDFA6",
+    dark: "#5F4522",
+    contrastText: "#3F2D04",
   },
   // Error
   error: {
-    main: "#F2B8B5",
-    light: "#F9DEDC",
-    dark: "#B3261E",
-    contrastText: "#601410",
+    main: "#FFB4AB",
+    light: "#FFDAD6",
+    dark: "#93000A",
+    contrastText: "#690005",
   },
   // Success
   success: {
@@ -47,26 +48,26 @@ const m3Colors = {
     dark: "#7D5800",
     contrastText: "#4A3800",
   },
-  // Surface colors for dark theme (M3 default)
+  // Surface colors for dark theme
   surface: {
-    main: "#141218",
-    dim: "#141218",
-    bright: "#3B383E",
-    containerLowest: "#0F0D13",
-    containerLow: "#1D1B20",
-    container: "#211F26",
-    containerHigh: "#2B2930",
-    containerHighest: "#36343B",
+    main: "#1A1110",
+    dim: "#1A1110",
+    bright: "#413736",
+    containerLowest: "#140C0B",
+    containerLow: "#231918",
+    container: "#271D1C",
+    containerHigh: "#322826",
+    containerHighest: "#3D3231",
   },
   // On-surface colors
   onSurface: {
-    main: "#E6E0E9",
-    variant: "#CAC4D0",
+    main: "#F1DFDC",
+    variant: "#D8C2BE",
   },
   // Outline
   outline: {
-    main: "#938F99",
-    variant: "#49454F",
+    main: "#A08C89",
+    variant: "#534342",
   },
 };
 

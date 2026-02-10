@@ -107,11 +107,11 @@ export function NumericKeypad({
   }, [value, maxLength, isLoading, onSubmit]);
 
   const keypadButtonStyles = {
-    minWidth: 88,
-    minHeight: 88,
+    minWidth: 76,
+    minHeight: 76,
     fontSize: "1.75rem",
     fontWeight: 500,
-    borderRadius: m3Tokens.shape.large,
+    borderRadius: m3Tokens.shape.medium,
     backgroundColor: m3Tokens.colors.surface.containerHigh,
     color: m3Tokens.colors.onSurface.main,
     transition: `all ${m3Tokens.motion.duration.short4}ms ${m3Tokens.motion.easing.standard}`,
@@ -135,7 +135,7 @@ export function NumericKeypad({
         alignItems: "center",
         gap: 3,
         width: "100%",
-        maxWidth: 360,
+        maxWidth: 320,
         mx: "auto",
       }}
     >
@@ -154,7 +154,7 @@ export function NumericKeypad({
       <Box
         sx={{
           display: "flex",
-          gap: 1.5,
+          gap: 1,
           justifyContent: "center",
         }}
       >
@@ -164,8 +164,8 @@ export function NumericKeypad({
             <Box
               key={i}
               sx={{
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
                 borderRadius: m3Tokens.shape.full,
                 display: "flex",
                 alignItems: "center",
@@ -231,7 +231,7 @@ export function NumericKeypad({
         sx={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 2,
+          gap: 1,
           width: "100%",
         }}
       >
