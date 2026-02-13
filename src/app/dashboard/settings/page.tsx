@@ -307,7 +307,7 @@ export default function SettingsPage() {
             Appearance
           </Typography>
           <Card>
-            <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <SettingsBrightnessOutlined sx={{ color: m3Tokens.colors.onSurface.variant }} />
                 <Box sx={{ flex: 1 }}>
@@ -324,21 +324,34 @@ export default function SettingsPage() {
                   if (value) setModeSetting(value);
                 }}
                 fullWidth
-                size="small"
                 sx={{
                   backgroundColor: m3Tokens.colors.surface.containerHigh,
+                  p: "5px",
+                  gap: "6px",
                 }}
               >
-                <ToggleButton value="light" aria-label="Light mode">
-                  <LightModeOutlined sx={{ mr: 0.75, fontSize: 18 }} />
+                <ToggleButton
+                  value="light"
+                  aria-label="Light mode"
+                  sx={{ py: 1.5 }}
+                >
+                  <LightModeOutlined sx={{ mr: 1, fontSize: 20 }} />
                   Light
                 </ToggleButton>
-                <ToggleButton value="system" aria-label="System default">
-                  <SettingsBrightnessOutlined sx={{ mr: 0.75, fontSize: 18 }} />
+                <ToggleButton
+                  value="system"
+                  aria-label="System default"
+                  sx={{ py: 1.5 }}
+                >
+                  <SettingsBrightnessOutlined sx={{ mr: 1, fontSize: 20 }} />
                   System
                 </ToggleButton>
-                <ToggleButton value="dark" aria-label="Dark mode">
-                  <DarkModeOutlined sx={{ mr: 0.75, fontSize: 18 }} />
+                <ToggleButton
+                  value="dark"
+                  aria-label="Dark mode"
+                  sx={{ py: 1.5 }}
+                >
+                  <DarkModeOutlined sx={{ mr: 1, fontSize: 20 }} />
                   Dark
                 </ToggleButton>
               </ToggleButtonGroup>

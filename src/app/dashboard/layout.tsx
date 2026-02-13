@@ -95,14 +95,11 @@ export default function DashboardLayout({
           </Typography>
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
           <Typography variant="body2" color="text.secondary">
             {session?.workerName}
           </Typography>
-          <ThemeModeToggle
-            size="small"
-            sx={{ color: m3Tokens.colors.onSurface.variant }}
-          />
+          <ThemeModeToggle />
           <IconButton
             onClick={logout}
             size="small"

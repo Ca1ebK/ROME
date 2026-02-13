@@ -15,6 +15,26 @@
     min-height: 100dvh;
     overflow-x: hidden;
   }
+
+  /* Smooth theme transitions */
+  body,
+  body * {
+    transition:
+      background-color 350ms cubic-bezier(0.2, 0, 0, 1),
+      color 250ms cubic-bezier(0.2, 0, 0, 1),
+      border-color 300ms cubic-bezier(0.2, 0, 0, 1),
+      box-shadow 300ms cubic-bezier(0.2, 0, 0, 1),
+      fill 250ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  /* Exclude elements that need their own transition timing */
+  .MuiTouchRipple-root,
+  .MuiTouchRipple-root *,
+  .MuiCircularProgress-root,
+  .MuiCircularProgress-root *,
+  .MuiLinearProgress-root .MuiLinearProgress-bar {
+    transition: none !important;
+  }
 }
 
 @layer utilities {

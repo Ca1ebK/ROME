@@ -73,58 +73,58 @@ const m3DarkColors = {
 };
 
 const m3LightColors = {
-  // Primary - Scholastic Red
+  // Primary - Scholastic Red (deepened for comfortable light-mode contrast)
   primary: {
-    main: "#BE0008",
-    light: "#FF5449",
-    dark: "#8C0009",
+    main: "#A4000A",
+    light: "#D63E3E",
+    dark: "#7B0007",
     contrastText: "#FFFFFF",
   },
   // Secondary - Warm neutral
   secondary: {
-    main: "#775652",
-    light: "#E7BDB6",
+    main: "#6B4D49",
+    light: "#D8B4AE",
     dark: "#442B27",
     contrastText: "#FFFFFF",
   },
   // Tertiary - Warm gold accent
   tertiary: {
-    main: "#715D2F",
-    light: "#DEC48C",
+    main: "#655328",
+    light: "#D4B87E",
     dark: "#3F2D04",
     contrastText: "#FFFFFF",
   },
   // Error
   error: {
-    main: "#BA1A1A",
+    main: "#A11414",
     light: "#FFDAD6",
-    dark: "#93000A",
+    dark: "#7A0008",
     contrastText: "#FFFFFF",
   },
   // Success
   success: {
-    main: "#386A20",
+    main: "#2E6118",
     light: "#C8EED2",
     dark: "#1B5000",
     contrastText: "#FFFFFF",
   },
   // Warning
   warning: {
-    main: "#7D5800",
+    main: "#6B4C00",
     light: "#FFEAC2",
     dark: "#4A3800",
     contrastText: "#FFFFFF",
   },
-  // Surface colors for light theme
+  // Surface colors for light theme (warmer, less stark white)
   surface: {
-    main: "#FFF8F7",
-    dim: "#E4D7D5",
-    bright: "#FFF8F7",
+    main: "#FBF3F2",
+    dim: "#DDD1CF",
+    bright: "#FBF3F2",
     containerLowest: "#FFFFFF",
-    containerLow: "#FEF1EF",
-    container: "#F8EBEA",
-    containerHigh: "#F2E5E3",
-    containerHighest: "#ECDFE0",
+    containerLow: "#F7EDEB",
+    container: "#F1E6E4",
+    containerHigh: "#EBE0DE",
+    containerHighest: "#E5DAD8",
   },
   // On-surface colors
   onSurface: {
@@ -342,16 +342,42 @@ export function createAppTheme(mode: "light" | "dark") {
             textTransform: "none",
             fontWeight: 500,
             padding: "10px 24px",
-            transition: `all ${m3Motion.duration.short4}ms ${m3Motion.easing.standard}`,
+            transition: `background-color ${m3Motion.duration.short4}ms ${m3Motion.easing.standard}, box-shadow ${m3Motion.duration.short4}ms ${m3Motion.easing.standard}, transform 100ms ease`,
+            "&:active": {
+              transform: "scale(0.97)",
+            },
           },
           contained: {
             boxShadow: "none",
-            "&:hover": {
-              boxShadow: "0px 1px 3px 1px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.3)",
-            },
+            ...(mode === "light" && {
+              backgroundColor: m3Colors.primary.dark,
+              "&:hover": {
+                backgroundColor: m3Colors.primary.main,
+                boxShadow: "0px 1px 3px 1px rgba(0,0,0,0.12), 0px 1px 2px 0px rgba(0,0,0,0.2)",
+              },
+            }),
+            ...(mode === "dark" && {
+              "&:hover": {
+                boxShadow: "0px 1px 3px 1px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.3)",
+              },
+            }),
           },
           outlined: {
             borderColor: m3Colors.outline.main,
+            ...(mode === "light" && {
+              borderWidth: 1.5,
+              "&:hover": {
+                borderWidth: 1.5,
+                backgroundColor: `${m3Colors.primary.main}08`,
+              },
+            }),
+          },
+          text: {
+            ...(mode === "light" && {
+              "&:hover": {
+                backgroundColor: `${m3Colors.primary.main}0A`,
+              },
+            }),
           },
         },
         defaultProps: {
@@ -514,7 +540,7 @@ export function createAppTheme(mode: "light" | "dark") {
       MuiAvatar: {
         styleOverrides: {
           root: {
-            backgroundColor: m3Colors.primary.main,
+            backgroundColor: mode === "light" ? m3Colors.primary.dark : m3Colors.primary.main,
             color: m3Colors.primary.contrastText,
           },
         },
@@ -549,14 +575,28 @@ export function createAppTheme(mode: "light" | "dark") {
           root: {
             borderRadius: m3Shape.full,
             textTransform: "none",
-            fontWeight: 500,
-            borderColor: m3Colors.outline.main,
+            fontWeight: 600,
+            fontSize: "0.875rem",
+            padding: "10px 20px",
+            borderColor: "transparent",
+            color: m3Colors.onSurface.variant,
+            transition: `all ${m3Motion.duration.medium1}ms ${m3Motion.easing.emphasized}`,
             "&.Mui-selected": {
-              backgroundColor: m3Colors.secondary.main,
-              color: m3Colors.secondary.contrastText,
+              backgroundColor: mode === "light"
+                ? m3Colors.primary.dark
+                : m3Colors.secondary.main,
+              color: "#FFFFFF",
+              boxShadow: mode === "light"
+                ? "0px 2px 6px rgba(0,0,0,0.15)"
+                : "0px 2px 6px rgba(0,0,0,0.3)",
               "&:hover": {
-                backgroundColor: m3Colors.secondary.dark,
+                backgroundColor: mode === "light"
+                  ? m3Colors.primary.main
+                  : m3Colors.secondary.dark,
               },
+            },
+            "&:not(.Mui-selected):hover": {
+              backgroundColor: m3Colors.surface.containerHighest,
             },
           },
         },
@@ -564,7 +604,7 @@ export function createAppTheme(mode: "light" | "dark") {
       MuiToggleButtonGroup: {
         styleOverrides: {
           root: {
-            backgroundColor: m3Colors.surface.container,
+            backgroundColor: m3Colors.surface.containerHigh,
             borderRadius: m3Shape.full,
             padding: 4,
             gap: 4,

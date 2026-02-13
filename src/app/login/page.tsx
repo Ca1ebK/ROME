@@ -365,9 +365,6 @@ export default function LoginPage() {
           borderBottom: `1px solid ${m3Tokens.colors.outline.variant}`,
         }}
       >
-        {/* Spacer for symmetry */}
-        <Box sx={{ width: 32 }} />
-
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
           <Avatar
             sx={{
@@ -400,10 +397,7 @@ export default function LoginPage() {
         </Box>
 
         {/* Theme toggle */}
-        <ThemeModeToggle
-          size="small"
-          sx={{ color: m3Tokens.colors.onSurface.variant }}
-        />
+        <ThemeModeToggle />
       </Box>
 
       {/* Main Content */}
