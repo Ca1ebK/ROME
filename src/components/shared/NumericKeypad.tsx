@@ -8,7 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import BackspaceOutlined from "@mui/icons-material/BackspaceOutlined";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 interface NumericKeypadProps {
   value: string;
@@ -29,6 +29,7 @@ export function NumericKeypad({
   error = null,
   label = "Enter Your PIN",
 }: NumericKeypadProps) {
+  const m3Tokens = useM3Tokens();
   const hasAutoSubmitted = useRef(false);
   const [pressedKey, setPressedKey] = useState<string | null>(null);
 
@@ -124,6 +125,9 @@ export function NumericKeypad({
     "&.Mui-disabled": {
       backgroundColor: m3Tokens.colors.surface.container,
       color: m3Tokens.colors.outline.main,
+    },
+    "& .MuiTouchRipple-child": {
+      backgroundColor: m3Tokens.colors.primary.main,
     },
   };
 

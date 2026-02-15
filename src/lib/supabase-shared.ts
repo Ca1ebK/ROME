@@ -41,7 +41,7 @@ export function getSupabaseClient(): SupabaseClient<any> | null {
 if (typeof window !== "undefined") {
   if (DEMO_MODE) {
     console.log("🎭 ROME running in DEMO MODE - no Supabase connection");
-    console.log("📌 Test PINs: 123456, 234567, 345678, 456789, 567890");
+    console.log("📌 Test PIN: 123456 (James Wilson, supervisor)");
     console.log("🔧 Admin PIN: 000000 (to add new workers)");
   } else {
     console.log("🚀 ROME connected to Supabase");
@@ -61,29 +61,17 @@ export interface DemoWorker {
 
 // Demo workers for testing without Supabase (mutable for adding new workers)
 let DEMO_WORKERS: DemoWorker[] = [
-  { id: "demo-1", pin: "123456", full_name: "John Smith", role: "worker" },
-  { id: "demo-2", pin: "234567", full_name: "Maria Garcia", role: "worker" },
-  { id: "demo-3", pin: "345678", full_name: "James Wilson", role: "supervisor" },
-  { id: "demo-4", pin: "456789", full_name: "Sarah Johnson", role: "worker" },
-  { id: "demo-5", pin: "567890", full_name: "Michael Brown", role: "worker" },
+  { id: "demo-1", pin: "123456", full_name: "James Wilson", role: "supervisor" },
 ];
 
 // Demo emails for testing
 const DEMO_EMAILS: Record<string, string> = {
-  "demo-1": "john.smith@example.com",
-  "demo-2": "maria.garcia@example.com",
-  "demo-3": "james.wilson@example.com",
-  "demo-4": "sarah.johnson@example.com",
-  "demo-5": "michael.brown@example.com",
+  "demo-1": "james.wilson@example.com",
 };
 
 // Demo phone numbers
 const DEMO_PHONES: Record<string, string> = {
-  "demo-1": "(555) 123-4567",
-  "demo-2": "(555) 234-5678",
-  "demo-3": "(555) 345-6789",
-  "demo-4": "",
-  "demo-5": "(555) 567-8901",
+  "demo-1": "(555) 345-6789",
 };
 
 // Getters

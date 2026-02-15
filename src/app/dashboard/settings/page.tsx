@@ -22,15 +22,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import PersonOutlined from "@mui/icons-material/PersonOutlined";
 import MailOutlined from "@mui/icons-material/MailOutlined";
 import PhoneOutlined from "@mui/icons-material/PhoneOutlined";
 import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined";
 import FingerprintOutlined from "@mui/icons-material/FingerprintOutlined";
-import LightModeOutlined from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlined from "@mui/icons-material/DarkModeOutlined";
 import SettingsBrightnessOutlined from "@mui/icons-material/SettingsBrightnessOutlined";
 import Logout from "@mui/icons-material/Logout";
 import Close from "@mui/icons-material/Close";
@@ -41,10 +37,9 @@ import {
   updateNotificationPreference,
   type WorkerProfile,
 } from "@/lib/supabase";
-import { PasskeyManagement } from "@/components";
+import { PasskeyManagement, ThemeModeToggle } from "@/components";
 import { usePasskey } from "@/hooks/usePasskey";
 import { useM3Tokens } from "@/hooks/useM3Tokens";
-import { useThemeMode, type ThemeModeSetting } from "@/theme";
 
 interface Session {
   workerId: string;
@@ -59,7 +54,6 @@ export default function SettingsPage() {
   const router = useRouter();
   const { isSupported: passkeysSupported, getPasskeys } = usePasskey();
   const m3Tokens = useM3Tokens();
-  const { modeSetting, setModeSetting } = useThemeMode();
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<WorkerProfile | null>(null);
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -317,44 +311,21 @@ export default function SettingsPage() {
                   </Typography>
                 </Box>
               </Box>
-              <ToggleButtonGroup
-                value={modeSetting}
-                exclusive
-                onChange={(_, value: ThemeModeSetting | null) => {
-                  if (value) setModeSetting(value);
-                }}
-                fullWidth
+              <ThemeModeToggle
+                variant="full"
                 sx={{
+                  width: "100%",
+                  justifyContent: "center",
                   backgroundColor: m3Tokens.colors.surface.containerHigh,
-                  p: "5px",
-                  gap: "6px",
+                  p: "4px",
+                  gap: "4px",
+                  "& .MuiIconButton-root": {
+                    flex: 1,
+                    height: 44,
+                    fontSize: "0.875rem",
+                  },
                 }}
-              >
-                <ToggleButton
-                  value="light"
-                  aria-label="Light mode"
-                  sx={{ py: 1.5 }}
-                >
-                  <LightModeOutlined sx={{ mr: 1, fontSize: 20 }} />
-                  Light
-                </ToggleButton>
-                <ToggleButton
-                  value="system"
-                  aria-label="System default"
-                  sx={{ py: 1.5 }}
-                >
-                  <SettingsBrightnessOutlined sx={{ mr: 1, fontSize: 20 }} />
-                  System
-                </ToggleButton>
-                <ToggleButton
-                  value="dark"
-                  aria-label="Dark mode"
-                  sx={{ py: 1.5 }}
-                >
-                  <DarkModeOutlined sx={{ mr: 1, fontSize: 20 }} />
-                  Dark
-                </ToggleButton>
-              </ToggleButtonGroup>
+              />
             </CardContent>
           </Card>
         </Box>

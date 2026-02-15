@@ -26,63 +26,7 @@ export interface TimeOffRequestData {
 }
 
 // Demo data
-let DEMO_REQUESTS: TimeOffRequestData[] = [
-  {
-    id: "demo-req-1",
-    worker_id: "demo-1",
-    worker_name: "John Smith",
-    type: "vacation",
-    start_date: "2026-02-14",
-    end_date: "2026-02-16",
-    paid_hours: 24,
-    unpaid_hours: 0,
-    is_excused: true,
-    is_planned: true,
-    comments: "Family vacation",
-    status: "pending",
-    reviewed_by: null,
-    reviewed_at: null,
-    denial_reason: null,
-    created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "demo-req-2",
-    worker_id: "demo-2",
-    worker_name: "Maria Garcia",
-    type: "sick",
-    start_date: "2026-02-01",
-    end_date: "2026-02-01",
-    paid_hours: 8,
-    unpaid_hours: 0,
-    is_excused: true,
-    is_planned: false,
-    comments: "Doctor appointment",
-    status: "pending",
-    reviewed_by: null,
-    reviewed_at: null,
-    denial_reason: null,
-    created_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "demo-req-3",
-    worker_id: "demo-4",
-    worker_name: "Sarah Johnson",
-    type: "personal",
-    start_date: "2026-01-20",
-    end_date: "2026-01-20",
-    paid_hours: 8,
-    unpaid_hours: 0,
-    is_excused: true,
-    is_planned: true,
-    comments: null,
-    status: "approved",
-    reviewed_by: "demo-3",
-    reviewer_name: "James Wilson",
-    reviewed_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    denial_reason: null,
-    created_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-];
+let DEMO_REQUESTS: TimeOffRequestData[] = [];
 
 // ============================================
 // Time Off Request Functions

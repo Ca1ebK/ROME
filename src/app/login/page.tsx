@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
+import Chip from "@mui/material/Chip";
 import Link from "@mui/material/Link";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -104,8 +105,37 @@ export default function LoginPage() {
 
       setPin("");
 
-      // If user has passkeys and device supports them, show choice
+      // If user has passkeys, auto-attempt passkey auth
       if (userHasPasskeys) {
+        clearError();
+        const passkeySuccess = await authenticate(workerData.id);
+
+        if (passkeySuccess) {
+          // Passkey succeeded — complete login immediately
+          localStorage.setItem(
+            "rome_session",
+            JSON.stringify({
+              workerId: workerData.id,
+              workerName: workerData.full_name,
+              email: workerData.email,
+              role: workerData.role,
+              expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
+            })
+          );
+
+          toast.success("Welcome!", {
+            description: `Logged in as ${workerData.full_name}`,
+          });
+
+          if (workerData.role === "manager" || workerData.role === "supervisor") {
+            router.push("/manager");
+          } else {
+            router.push("/dashboard");
+          }
+          return;
+        }
+
+        // Passkey was dismissed or failed — fall back to choice screen
         setStep("auth-choice");
       } else {
         // Otherwise, go directly to email verification
@@ -133,7 +163,7 @@ export default function LoginPage() {
     } finally {
       setIsPinLoading(false);
     }
-  }, [pin, passkeysSupported, hasPasskeys]);
+  }, [pin, passkeysSupported, hasPasskeys, authenticate, clearError, router]);
 
   // Handle passkey authentication
   const handlePasskeyAuth = useCallback(async () => {
@@ -391,9 +421,21 @@ export default function LoginPage() {
                 letterSpacing: 1,
               }}
             >
-              WORKER LOGIN
+              SCHOLASTIC WAREHOUSE
             </Typography>
           </Box>
+          <Chip
+            label="PERSONAL"
+            size="small"
+            sx={{
+              bgcolor: `${m3Tokens.colors.secondary.main}1A`,
+              color: m3Tokens.colors.secondary.main,
+              fontWeight: 700,
+              fontSize: "0.625rem",
+              letterSpacing: 1,
+              height: 24,
+            }}
+          />
         </Box>
 
         {/* Theme toggle */}
