@@ -23,19 +23,23 @@ interface ThemeModeContextValue {
 
 const STORAGE_KEY = "rome_theme_mode";
 
+/** Default used during SSR and initial hydration — must be deterministic */
+const SSR_DEFAULT_SETTING: ThemeModeSetting = "system";
+const SSR_DEFAULT_RESOLVED: ResolvedThemeMode = "dark";
+
 const ThemeModeContext = createContext<ThemeModeContextValue | undefined>(
   undefined
 );
 
 function getSystemPreference(): ResolvedThemeMode {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return SSR_DEFAULT_RESOLVED;
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
 }
 
 function getStoredSetting(): ThemeModeSetting {
-  if (typeof window === "undefined") return "system";
+  if (typeof window === "undefined") return SSR_DEFAULT_SETTING;
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored === "light" || stored === "dark" || stored === "system") {
     return stored;
@@ -43,18 +47,19 @@ function getStoredSetting(): ThemeModeSetting {
   return "system";
 }
 
-function resolveMode(setting: ThemeModeSetting): ResolvedThemeMode {
-  if (setting === "system") return getSystemPreference();
-  return setting;
-}
-
 export function ThemeModeProvider({ children }: { children: React.ReactNode }) {
-  const [modeSetting, setModeSettingState] = useState<ThemeModeSetting>(() =>
-    getStoredSetting()
-  );
-  const [systemPreference, setSystemPreference] = useState<ResolvedThemeMode>(
-    () => getSystemPreference()
-  );
+  // Start with SSR-safe defaults to avoid hydration mismatch.
+  // Real values are loaded in useEffect after mount.
+  const [modeSetting, setModeSettingState] = useState<ThemeModeSetting>(SSR_DEFAULT_SETTING);
+  const [systemPreference, setSystemPreference] = useState<ResolvedThemeMode>(SSR_DEFAULT_RESOLVED);
+  const [mounted, setMounted] = useState(false);
+
+  // After hydration, read the real values from localStorage / media query
+  useEffect(() => {
+    setModeSettingState(getStoredSetting());
+    setSystemPreference(getSystemPreference());
+    setMounted(true);
+  }, []);
 
   // Listen for system preference changes
   useEffect(() => {
@@ -80,6 +85,16 @@ export function ThemeModeProvider({ children }: { children: React.ReactNode }) {
     () => ({ modeSetting, resolvedMode, setModeSetting }),
     [modeSetting, resolvedMode, setModeSetting]
   );
+
+  // Prevent flash: hide content until client values are loaded.
+  // This is a single-frame delay (one useEffect tick) so it's imperceptible.
+  if (!mounted) {
+    return (
+      <ThemeModeContext.Provider value={value}>
+        <div style={{ visibility: "hidden" }}>{children}</div>
+      </ThemeModeContext.Provider>
+    );
+  }
 
   return (
     <ThemeModeContext.Provider value={value}>
