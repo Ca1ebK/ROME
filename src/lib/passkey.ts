@@ -15,7 +15,7 @@ import { getSupabaseClient, isDemoMode } from "./supabase-shared";
 import type { PasskeyCredential } from "@/types/database";
 
 // WebAuthn Relying Party configuration
-const rpName = "ROME Warehouse";
+const rpName = "ROME";
 const rpID = process.env.NEXT_PUBLIC_RP_ID || "localhost";
 const origin = process.env.NEXT_PUBLIC_ORIGIN || "http://localhost:3000";
 

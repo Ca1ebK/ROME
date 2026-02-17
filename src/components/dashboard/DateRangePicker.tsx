@@ -12,7 +12,7 @@ import Collapse from "@mui/material/Collapse";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import CalendarTodayOutlined from "@mui/icons-material/CalendarTodayOutlined";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 interface DateRangePickerProps {
   startDate: string;
@@ -59,6 +59,7 @@ export function DateRangePicker({
   onStartDateChange,
   onEndDateChange,
 }: DateRangePickerProps) {
+  const m3Tokens = useM3Tokens();
   const [isOpen, setIsOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(() => {
     const start = parseDate(startDate);

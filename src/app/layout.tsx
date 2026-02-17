@@ -4,8 +4,8 @@ import { ThemeRegistry } from "@/theme/ThemeRegistry";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ROME | Scholastic Warehouse",
-  description: "Warehouse Management System for Scholastic",
+  title: "ROME | Workforce Management",
+  description: "Mobile-first workforce management system with kiosk clock-in, dashboards, and time-off requests.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

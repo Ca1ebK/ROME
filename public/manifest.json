@@ -1,7 +1,7 @@
 {
-  "name": "ROME - Scholastic Warehouse",
+  "name": "ROME - Workforce Management",
   "short_name": "ROME",
-  "description": "Warehouse Management System for Scholastic",
+  "description": "Mobile-first workforce management system",
   "start_url": "/kiosk",
   "display": "standalone",
   "background_color": "#0A0A0A",

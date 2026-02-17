@@ -123,7 +123,7 @@ export default function WorkersPage() {
     setIsAdding(true);
     setAddError(null);
 
-    const result = await createWorker(newPin, newName.trim(), newRole);
+    const result = await createWorker(newPin, newName.trim(), newRole, newEmail || undefined);
 
     if (result.success) {
       toast.success("Worker created!", {

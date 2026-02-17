@@ -10,7 +10,6 @@ import IconButton from "@mui/material/IconButton";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
-import Chip from "@mui/material/Chip";
 import Link from "@mui/material/Link";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -20,6 +19,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import MailOutline from "@mui/icons-material/MailOutline";
 import FingerprintOutlined from "@mui/icons-material/FingerprintOutlined";
+import ContentCopy from "@mui/icons-material/ContentCopy";
 import { NumericKeypad, ThemeModeToggle } from "@/components";
 import { usePasskey } from "@/hooks/usePasskey";
 import {
@@ -63,6 +63,9 @@ export default function LoginPage() {
   // Passkey state
   const [workerHasPasskeys, setWorkerHasPasskeys] = useState(false);
   const [showPasskeyPrompt, setShowPasskeyPrompt] = useState(false);
+
+  // Dev verification code popup (for testing default users)
+  const [devCode, setDevCode] = useState<string | null>(null);
 
   // Auto-submit ref for verification
   const hasAutoSubmittedVerify = useRef(false);
@@ -150,6 +153,11 @@ export default function LoginPage() {
           return;
         }
 
+        // Show dev code popup if returned (demo mode or test email)
+        if (sendResult.devCode) {
+          setDevCode(sendResult.devCode);
+        }
+
         setStep("verify");
         setResendCooldown(60);
 
@@ -214,6 +222,11 @@ export default function LoginPage() {
     if (!sendResult.success) {
       toast.error(sendResult.error || "Failed to send code");
       return;
+    }
+
+    // Show dev code popup if returned (demo mode or test email)
+    if (sendResult.devCode) {
+      setDevCode(sendResult.devCode);
     }
 
     setStep("verify");
@@ -314,6 +327,10 @@ export default function LoginPage() {
       );
 
       if (result.success) {
+        // Update dev code popup if returned
+        if (result.devCode) {
+          setDevCode(result.devCode);
+        }
         setResendCooldown(60);
         toast.success("Code resent!");
       } else {
@@ -421,21 +438,9 @@ export default function LoginPage() {
                 letterSpacing: 1,
               }}
             >
-              SCHOLASTIC WAREHOUSE
+              WORKFORCE MANAGEMENT
             </Typography>
           </Box>
-          <Chip
-            label="PERSONAL"
-            size="small"
-            sx={{
-              bgcolor: `${m3Tokens.colors.secondary.main}1A`,
-              color: m3Tokens.colors.secondary.main,
-              fontWeight: 700,
-              fontSize: "0.625rem",
-              letterSpacing: 1,
-              height: 24,
-            }}
-          />
         </Box>
 
         {/* Theme toggle */}
@@ -738,6 +743,88 @@ export default function LoginPage() {
             disabled={isPasskeyLoading}
           >
             Maybe Later
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dev Verification Code Popup (for testing default/demo users) */}
+      <Dialog
+        open={devCode !== null}
+        onClose={() => setDevCode(null)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle sx={{ textAlign: "center", pt: 3 }}>
+          <Avatar
+            sx={{
+              width: 56,
+              height: 56,
+              mx: "auto",
+              mb: 2,
+              bgcolor: `${m3Tokens.colors.warning.main}20`,
+            }}
+          >
+            <MailOutline
+              sx={{ fontSize: 28, color: m3Tokens.colors.warning.main }}
+            />
+          </Avatar>
+          Test Verification Code
+        </DialogTitle>
+        <DialogContent sx={{ textAlign: "center" }}>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            This code is shown because the email could not be delivered (demo mode or test email address).
+          </Typography>
+          <Box
+            sx={{
+              display: "inline-block",
+              px: 4,
+              py: 2,
+              borderRadius: m3Tokens.shape.large,
+              bgcolor: m3Tokens.colors.surface.containerHighest,
+              border: `2px dashed ${m3Tokens.colors.warning.main}`,
+            }}
+          >
+            <Typography
+              variant="h3"
+              component="span"
+              sx={{
+                fontFamily: "monospace",
+                fontWeight: 700,
+                color: m3Tokens.colors.onSurface.main,
+                "& span": {
+                  letterSpacing: "0.3em",
+                },
+                "& span:last-child": {
+                  letterSpacing: 0,
+                },
+              }}
+            >
+              {devCode?.split("").map((char, i) => (
+                <span key={i}>{char}</span>
+              ))}
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ flexDirection: "column", gap: 1, px: 3, pb: 3 }}>
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<ContentCopy />}
+            onClick={() => {
+              if (devCode) {
+                navigator.clipboard.writeText(devCode);
+                toast.success("Code copied!");
+              }
+            }}
+          >
+            Copy Code
+          </Button>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => setDevCode(null)}
+          >
+            Got it
           </Button>
         </DialogActions>
       </Dialog>

@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import PersonAddOutlined from "@mui/icons-material/PersonAddOutlined";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import Check from "@mui/icons-material/Check";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 interface AddWorkerProps {
   isLoading: boolean;
@@ -22,6 +22,7 @@ interface AddWorkerProps {
 }
 
 export function AddWorker({ isLoading, onSubmit, onBack }: AddWorkerProps) {
+  const m3Tokens = useM3Tokens();
   const [pin, setPin] = useState("");
   const [name, setName] = useState("");
   const [role, setRole] = useState("worker");

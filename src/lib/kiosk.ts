@@ -6,7 +6,7 @@
  * - Worker creation (admin)
  */
 
-import { getSupabaseClient, isDemoMode, delay, getDemoWorkers, addDemoWorker } from "./supabase-shared";
+import { getSupabaseClient, isDemoMode, delay, getDemoWorkers, addDemoWorker, updateDemoEmail } from "./supabase-shared";
 import { formatDuration } from "./utils";
 
 // ============================================
@@ -192,7 +192,7 @@ export async function clockOut(workerId: string, clockInTime: string | null) {
 // Worker Management (Admin)
 // ============================================
 
-export async function createWorker(pin: string, fullName: string, role: string = "worker") {
+export async function createWorker(pin: string, fullName: string, role: string = "worker", email?: string) {
   const DEMO_MODE = isDemoMode();
   const supabase = getSupabaseClient();
 
@@ -223,19 +223,27 @@ export async function createWorker(pin: string, fullName: string, role: string =
     };
     
     addDemoWorker(newWorker);
+    if (email?.trim()) {
+      updateDemoEmail(newWorker.id, email.trim());
+    }
     console.log("👤 New worker added:", newWorker);
     
     return { success: true, worker: newWorker };
   }
 
   // Supabase mode
+  const insertData: Record<string, string> = {
+    pin,
+    full_name: fullName.trim(),
+    role,
+  };
+  if (email?.trim()) {
+    insertData.email = email.trim();
+  }
+
   const { data, error } = await supabase!
     .from("workers")
-    .insert({
-      pin,
-      full_name: fullName.trim(),
-      role,
-    })
+    .insert(insertData)
     .select()
     .single();
 
@@ -243,6 +251,7 @@ export async function createWorker(pin: string, fullName: string, role: string =
     if (error.code === "23505") {
       return { success: false, error: "This PIN is already in use." };
     }
+    console.error("Failed to create worker:", error);
     return { success: false, error: "Failed to create worker. Please try again." };
   }
 

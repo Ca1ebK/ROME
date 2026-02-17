@@ -10,7 +10,7 @@ import Logout from "@mui/icons-material/Logout";
 import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import FiberManualRecord from "@mui/icons-material/FiberManualRecord";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 interface ActionButtonsProps {
   workerName: string;
@@ -33,6 +33,7 @@ export function ActionButtons({
   onLogProduction,
   onBack,
 }: ActionButtonsProps) {
+  const m3Tokens = useM3Tokens();
   const actionButtonStyles = {
     py: 3,
     px: 4,

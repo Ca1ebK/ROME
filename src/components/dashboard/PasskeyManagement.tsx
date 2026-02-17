@@ -24,7 +24,7 @@ import PhoneIphoneOutlined from "@mui/icons-material/PhoneIphoneOutlined";
 import LaptopOutlined from "@mui/icons-material/LaptopOutlined";
 import Close from "@mui/icons-material/Close";
 import { usePasskey } from "@/hooks/usePasskey";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 import { toast } from "sonner";
 
 interface PasskeyInfo {
@@ -50,6 +50,7 @@ export function PasskeyManagement({
   userName,
   userEmail,
 }: PasskeyManagementProps) {
+  const m3Tokens = useM3Tokens();
   const { isSupported, isLoading, error, register, getPasskeys, deletePasskey, clearError } = usePasskey();
   const [passkeys, setPasskeys] = useState<PasskeyInfo[]>([]);
   const [isLoadingList, setIsLoadingList] = useState(true);

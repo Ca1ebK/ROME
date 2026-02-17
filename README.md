@@ -1,144 +1,52 @@
-# ROME - Warehouse Management System
+# ROME
 
-A mobile-first kiosk application for Scholastic warehouse operations. Built with Next.js 15, Tailwind CSS, Shadcn UI patterns, and Supabase.
+A mobile-first workforce management system built with Next.js, Material UI, and Supabase. ROME was created as a simpler, more intuitive, and modern alternative to warehouse tracking software. My co-founder Liam used to work at a Scholastic warehouse where they used Kronos—this project was inspired by that experience. Features kiosk-based clock-in/out, personal worker dashboards, time-off requests, and manager approvals.
+
+## Live Demo
+
+Try it out: https://rome-chi.vercel.app/
+
+### Test Accounts
+
+| PIN | Name | Role |
+|-----|------|------|
+| `123456` | John Smith | Worker |
+| `345678` | James Wilson | Manager |
+| `000000` | Admin Mode | Create workers |
+
+### How to Test
+
+1. Kiosk (`/kiosk`) — Enter a PIN to clock in/out or log production
+2. Login (`/login`) — Enter a PIN, then use the verification code popup to sign in
+3. Dashboard (`/dashboard`) — View hours, punch history, and request time off
+4. Manager (`/manager`) — Approve/deny requests, manage workers (use James Wilson)
 
 ## Features
 
-- **6-Digit PIN Authentication** - Simple, fast worker identification
-- **Clock In/Out** - Track worker attendance with timestamps
-- **Production Logging** - Record task completion with quantity counters
-- **High-Contrast UI** - Black/white/safety-orange theme for warehouse visibility
-- **Offline-Resilient** - Clear retry buttons when network fails
+- Kiosk Mode — Shared terminal for PIN-based clock in/out and production logging
+- Worker Dashboard — Weekly hours, punch history, time-off requests
+- Manager Dashboard — Approve/deny time-off, manage team members
+- Multi-Factor Auth — PIN + email verification + optional WebAuthn passkeys
+- Light/Dark/System Themes — Material Design 3 with adaptive color tokens
+- PWA Ready — Installable as a standalone app on mobile devices
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
-- **Styling**: Tailwind CSS with custom warehouse theme
-- **Database**: Supabase (PostgreSQL)
-- **Icons**: Lucide React
-- **Notifications**: Sonner
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| UI | Material UI v7, Tailwind CSS, Emotion |
+| Database | Supabase (PostgreSQL + Row Level Security) |
+| Auth | PIN + Email Verification + WebAuthn Passkeys |
+| Email | Resend |
+| Deployment | Vercel |
 
-## Quick Start
-
-### 1. Install Dependencies
+## Getting Started
 
 ```bash
+git clone https://github.com/your-username/ROME.git
+cd ROME
+cp env.example .env.local   # Add your Supabase keys
 npm install
-```
-
-### 2. Set Up Supabase
-
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Run the SQL schema in `supabase/schema.sql` via the SQL Editor
-3. Copy `.env.local.example` to `.env.local` and add your credentials:
-
-```bash
-cp .env.local.example .env.local
-```
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-
-### 3. Run Development Server
-
-```bash
 npm run dev
 ```
-
-Open [http://localhost:3000/kiosk](http://localhost:3000/kiosk)
-
-## Test PINs
-
-After running the schema (which includes seed data):
-
-| PIN    | Name          | Role       |
-|--------|---------------|------------|
-| 123456 | John Smith    | worker     |
-| 234567 | Maria Garcia  | worker     |
-| 345678 | James Wilson  | supervisor |
-| 456789 | Sarah Johnson | worker     |
-| 567890 | Michael Brown | worker     |
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── globals.css      # Tailwind + custom warehouse styles
-│   ├── layout.tsx       # Root layout with Toaster
-│   ├── page.tsx         # Redirects to /kiosk
-│   └── kiosk/
-│       └── page.tsx     # Main kiosk interface
-├── components/
-│   ├── NumericKeypad.tsx   # PIN entry component
-│   ├── ActionButtons.tsx   # Clock In/Out/Log buttons
-│   ├── ProductionLog.tsx   # Task quantity logger
-│   └── ErrorRetry.tsx      # Network error handler
-├── lib/
-│   ├── supabase.ts      # Supabase client & API functions
-│   └── utils.ts         # Utility functions (cn, formatters)
-└── types/
-    └── database.ts      # TypeScript types for Supabase
-
-supabase/
-└── schema.sql           # Database schema with seed data
-```
-
-## Task List (Hardcoded)
-
-- Box Packing
-- Table Sorting
-- Pallet Loading
-- Shipping/Receiving
-
-## Design Principles
-
-1. **Touch-First** - Large buttons (min 4rem), generous tap targets
-2. **High Visibility** - Safety orange on black background
-3. **Fail Gracefully** - Every network error shows a clear "Retry" button
-4. **Fast Flow** - PIN → Action → Done in under 10 seconds
-
-## Database Schema
-
-### workers
-| Column    | Type        | Description              |
-|-----------|-------------|--------------------------|
-| id        | UUID        | Primary key              |
-| pin       | CHAR(6)     | Unique 6-digit PIN       |
-| full_name | VARCHAR(100)| Worker's display name    |
-| role      | VARCHAR(50) | 'worker' or 'supervisor' |
-| is_active | BOOLEAN     | Account status           |
-
-### punches
-| Column    | Type      | Description           |
-|-----------|-----------|----------------------|
-| id        | UUID      | Primary key          |
-| worker_id | UUID      | Foreign key → workers|
-| type      | ENUM      | 'IN' or 'OUT'        |
-| timestamp | TIMESTAMPTZ| When punch occurred |
-
-### production_logs
-| Column    | Type      | Description           |
-|-----------|-----------|----------------------|
-| id        | UUID      | Primary key          |
-| worker_id | UUID      | Foreign key → workers|
-| task_name | VARCHAR   | Task completed       |
-| quantity  | INTEGER   | Number completed     |
-| timestamp | TIMESTAMPTZ| When logged         |
-
-## Deployment
-
-Build for production:
-
-```bash
-npm run build
-npm start
-```
-
-Recommended: Deploy to Vercel with Supabase integration.
-
-## License
-
-Proprietary - Scholastic Corporation

@@ -13,10 +13,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import FileDownloadOutlined from "@mui/icons-material/FileDownloadOutlined";
 import { getPunchHistory, formatDuration, type PunchPair } from "@/lib/supabase";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 export default function PunchHistoryPage() {
   const router = useRouter();
+  const m3Tokens = useM3Tokens();
   const [isLoading, setIsLoading] = useState(true);
   const [punches, setPunches] = useState<PunchPair[]>([]);
   const [filter, setFilter] = useState<"week" | "month" | "all">("week");

@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Chip from "@mui/material/Chip";
 import Remove from "@mui/icons-material/Remove";
 import Add from "@mui/icons-material/Add";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 interface HoursSliderProps {
   paidHours: number;
@@ -46,6 +46,7 @@ export function HoursSlider({
   startDate,
   endDate,
 }: HoursSliderProps) {
+  const m3Tokens = useM3Tokens();
   const totalHours = paidHours + unpaidHours;
 
   const suggestedTotal = useMemo(() => {

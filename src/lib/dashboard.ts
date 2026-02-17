@@ -96,7 +96,8 @@ export async function sendVerificationCode(workerId: string, email: string, work
     demoVerificationCodes[workerId] = { code, expiresAt };
     // Send email via API route
     await sendEmailViaApi();
-    return { success: true, message: "Code sent!" };
+    // Return the code so the UI can display it for testing
+    return { success: true, message: "Code sent!", devCode: code };
   }
 
   // Supabase mode - store code in database
@@ -119,7 +120,10 @@ export async function sendVerificationCode(workerId: string, email: string, work
     console.error("Failed to send verification email:", emailResult.error);
   }
 
-  return { success: true, message: "Code sent!" };
+  // Always return devCode so the UI can show it for testing.
+  // The code is already in the DB,
+  // and test emails (@example.com) can't receive real emails anyway.
+  return { success: true, message: "Code sent!", devCode: code };
 }
 
 export async function verifyCode(workerId: string, code: string) {

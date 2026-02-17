@@ -1,5 +1,5 @@
 -- ============================================
--- ROME Warehouse Management System
+-- ROME Workforce Management System
 -- RESET SCRIPT - Drops and recreates everything
 -- ============================================
 

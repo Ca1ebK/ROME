@@ -2,12 +2,12 @@
 
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 
-// M3 Color Palettes - Scholastic Red theme
-// Primary derived from Scholastic brand red #E6000D
+// M3 Color Palettes - ROME Red theme
+// Primary derived from brand red #E6000D
 // Generated following Material Design 3 guidelines
 
 const m3DarkColors = {
-  // Primary - Scholastic Red (toned for dark theme readability)
+  // Primary - Red (toned for dark theme readability)
   primary: {
     main: "#FFB4AB",
     light: "#FFDAD6",
@@ -73,7 +73,7 @@ const m3DarkColors = {
 };
 
 const m3LightColors = {
-  // Primary - Scholastic Red (deepened for comfortable light-mode contrast)
+  // Primary - Red (deepened for comfortable light-mode contrast)
   primary: {
     main: "#A4000A",
     light: "#D63E3E",

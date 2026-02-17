@@ -17,7 +17,7 @@ import Check from "@mui/icons-material/Check";
 import { submitTimeOffRequest } from "@/lib/timeoff";
 import { DateRangePicker, HoursSlider } from "@/components";
 import type { TimeOffType } from "@/types/database";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 const TIME_OFF_TYPES: { value: TimeOffType; label: string }[] = [
   { value: "vacation", label: "Vacation" },
@@ -29,6 +29,7 @@ const TIME_OFF_TYPES: { value: TimeOffType; label: string }[] = [
 
 export default function NewTimeOffRequestPage() {
   const router = useRouter();
+  const m3Tokens = useM3Tokens();
 
   const [type, setType] = useState<TimeOffType | null>(null);
   const [startDate, setStartDate] = useState("");

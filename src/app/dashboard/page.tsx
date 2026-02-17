@@ -18,7 +18,7 @@ import ChevronRight from "@mui/icons-material/ChevronRight";
 import AccessTime from "@mui/icons-material/AccessTime";
 import FiberManualRecord from "@mui/icons-material/FiberManualRecord";
 import { getWorkerStatus, getWeeklyHours, getPunchHistory, formatDuration, type PunchPair } from "@/lib/supabase";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 interface Session {
   workerId: string;
@@ -27,6 +27,7 @@ interface Session {
 
 export default function DashboardHome() {
   const router = useRouter();
+  const m3Tokens = useM3Tokens();
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

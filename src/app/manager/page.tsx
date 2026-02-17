@@ -21,7 +21,7 @@ import AccessTime from "@mui/icons-material/AccessTime";
 import PersonOutlined from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlined from "@mui/icons-material/CalendarTodayOutlined";
 import { getAllPendingRequests, approveRequest, denyRequest, type TimeOffRequestData } from "@/lib/timeoff";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 const TYPE_LABELS: Record<string, string> = {
   vacation: "Vacation",
@@ -40,6 +40,7 @@ const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
 };
 
 export default function ManagerPendingPage() {
+  const m3Tokens = useM3Tokens();
   const [requests, setRequests] = useState<TimeOffRequestData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);

@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import Chip from "@mui/material/Chip";
 import Link from "@mui/material/Link";
 import {
   NumericKeypad,
@@ -335,21 +334,9 @@ export default function KioskPage() {
                 letterSpacing: 1,
               }}
             >
-              SCHOLASTIC WAREHOUSE
+              WORKFORCE MANAGEMENT
             </Typography>
           </Box>
-          <Chip
-            label="KIOSK"
-            size="small"
-            sx={{
-              bgcolor: `${m3Tokens.colors.primary.main}1A`,
-              color: m3Tokens.colors.primary.main,
-              fontWeight: 700,
-              fontSize: "0.625rem",
-              letterSpacing: 1,
-              height: 24,
-            }}
-          />
         </Box>
 
         {/* Theme toggle */}

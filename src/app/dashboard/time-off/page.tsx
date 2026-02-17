@@ -14,7 +14,7 @@ import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlined from "@mui/icons-material/CancelOutlined";
 import { getMyTimeOffRequests, type TimeOffRequestData } from "@/lib/timeoff";
 import type { TimeOffType, RequestStatus } from "@/types/database";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 const TYPE_LABELS: Record<TimeOffType, string> = {
   vacation: "Vacation",
@@ -24,14 +24,15 @@ const TYPE_LABELS: Record<TimeOffType, string> = {
   unpaid: "Unpaid",
 };
 
-const STATUS_CONFIG: Record<RequestStatus, { icon: typeof AccessTime; color: string; label: string }> = {
-  pending: { icon: AccessTime, color: m3Tokens.colors.warning.main, label: "Pending" },
-  approved: { icon: CheckCircleOutline, color: m3Tokens.colors.success.main, label: "Approved" },
-  denied: { icon: CancelOutlined, color: m3Tokens.colors.error.main, label: "Denied" },
-};
-
 export default function TimeOffPage() {
   const router = useRouter();
+  const m3Tokens = useM3Tokens();
+
+  const STATUS_CONFIG: Record<RequestStatus, { icon: typeof AccessTime; color: string; label: string }> = {
+    pending: { icon: AccessTime, color: m3Tokens.colors.warning.main, label: "Pending" },
+    approved: { icon: CheckCircleOutline, color: m3Tokens.colors.success.main, label: "Approved" },
+    denied: { icon: CancelOutlined, color: m3Tokens.colors.error.main, label: "Denied" },
+  };
   const [requests, setRequests] = useState<TimeOffRequestData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

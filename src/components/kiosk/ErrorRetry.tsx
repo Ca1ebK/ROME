@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import CircularProgress from "@mui/material/CircularProgress";
 import WarningAmberOutlined from "@mui/icons-material/WarningAmberOutlined";
 import Refresh from "@mui/icons-material/Refresh";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
 interface ErrorRetryProps {
   message: string;
@@ -20,6 +20,7 @@ export function ErrorRetry({
   onRetry,
   isRetrying = false,
 }: ErrorRetryProps) {
+  const m3Tokens = useM3Tokens();
   return (
     <Box
       sx={{

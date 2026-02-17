@@ -27,7 +27,6 @@ import MailOutlined from "@mui/icons-material/MailOutlined";
 import PhoneOutlined from "@mui/icons-material/PhoneOutlined";
 import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined";
 import FingerprintOutlined from "@mui/icons-material/FingerprintOutlined";
-import SettingsBrightnessOutlined from "@mui/icons-material/SettingsBrightnessOutlined";
 import Logout from "@mui/icons-material/Logout";
 import Close from "@mui/icons-material/Close";
 import {
@@ -37,7 +36,7 @@ import {
   updateNotificationPreference,
   type WorkerProfile,
 } from "@/lib/supabase";
-import { PasskeyManagement, ThemeModeToggle } from "@/components";
+import { PasskeyManagement } from "@/components";
 import { usePasskey } from "@/hooks/usePasskey";
 import { useM3Tokens } from "@/hooks/useM3Tokens";
 
@@ -292,44 +291,6 @@ export default function SettingsPage() {
           </Card>
         </Box>
 
-        {/* Appearance Section */}
-        <Box>
-          <Typography
-            variant="overline"
-            sx={{ color: m3Tokens.colors.onSurface.variant, letterSpacing: 1, mb: 1.5, display: "block" }}
-          >
-            Appearance
-          </Typography>
-          <Card>
-            <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <SettingsBrightnessOutlined sx={{ color: m3Tokens.colors.onSurface.variant }} />
-                <Box sx={{ flex: 1 }}>
-                  <Typography variant="body1">Theme</Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    Choose light, dark, or match your system
-                  </Typography>
-                </Box>
-              </Box>
-              <ThemeModeToggle
-                variant="full"
-                sx={{
-                  width: "100%",
-                  justifyContent: "center",
-                  backgroundColor: m3Tokens.colors.surface.containerHigh,
-                  p: "4px",
-                  gap: "4px",
-                  "& .MuiIconButton-root": {
-                    flex: 1,
-                    height: 44,
-                    fontSize: "0.875rem",
-                  },
-                }}
-              />
-            </CardContent>
-          </Card>
-        </Box>
-
         {/* Security Section */}
         {passkeysSupported && (
           <Box>
@@ -383,7 +344,7 @@ export default function SettingsPage() {
         {/* App Info */}
         <Box sx={{ textAlign: "center", pt: 2 }}>
           <Typography variant="caption" color="text.secondary">
-            ROME v1.0.0 • Scholastic Warehouse
+            ROME v1.0.0
           </Typography>
         </Box>
       </Box>

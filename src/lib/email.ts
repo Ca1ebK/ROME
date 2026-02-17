@@ -57,7 +57,7 @@ function getVerificationEmailHtml({ code, workerName }: VerificationEmailProps):
           <tr>
             <td style="padding: 32px 24px 24px; text-align: center; border-bottom: 1px solid #262626;">
               <h1 style="margin: 0; font-size: 28px; font-weight: bold; color: #FF6B00;">ROME</h1>
-              <p style="margin: 8px 0 0; font-size: 14px; color: #737373;">Warehouse Management</p>
+              <p style="margin: 8px 0 0; font-size: 14px; color: #737373;">Workforce Management</p>
             </td>
           </tr>
           
@@ -91,7 +91,7 @@ function getVerificationEmailHtml({ code, workerName }: VerificationEmailProps):
                 If you didn't request this code, you can safely ignore this email.
               </p>
               <p style="margin: 12px 0 0; font-size: 11px; color: #525252; text-align: center;">
-                &copy; ${new Date().getFullYear()} ROME Warehouse Management System
+                &copy; ${new Date().getFullYear()} ROME Workforce Management
               </p>
             </td>
           </tr>
@@ -114,7 +114,7 @@ This code expires in 10 minutes.
 
 If you didn't request this code, you can safely ignore this email.
 
-- ROME Warehouse Management System
+- ROME Workforce Management
   `.trim();
 }
 
@@ -254,7 +254,7 @@ function getTimeOffNotificationHtml(props: TimeOffNotificationProps): string {
           <tr>
             <td style="padding: 24px; border-top: 1px solid #262626;">
               <p style="margin: 0; font-size: 11px; color: #525252; text-align: center;">
-                &copy; ${new Date().getFullYear()} ROME Warehouse Management System
+                &copy; ${new Date().getFullYear()} ROME Workforce Management
               </p>
             </td>
           </tr>

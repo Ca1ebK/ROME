@@ -17,9 +17,9 @@ import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
 import GridViewOutlined from "@mui/icons-material/GridViewOutlined";
 import ViewInArOutlined from "@mui/icons-material/ViewInArOutlined";
 import LocalShippingOutlined from "@mui/icons-material/LocalShippingOutlined";
-import { m3Tokens } from "@/theme";
+import { useM3Tokens } from "@/hooks/useM3Tokens";
 
-// Hardcoded task list for Scholastic warehouse
+// Hardcoded task list for production logging
 const TASKS = [
   { id: "box-packing", name: "Box Packing", Icon: Inventory2Outlined },
   { id: "table-sorting", name: "Table Sorting", Icon: GridViewOutlined },
@@ -43,6 +43,7 @@ export function ProductionLog({
   onSubmit,
   onBack,
 }: ProductionLogProps) {
+  const m3Tokens = useM3Tokens();
   const [quantities, setQuantities] = useState<TaskQuantities>({
     "box-packing": 0,
     "table-sorting": 0,

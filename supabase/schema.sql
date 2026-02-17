@@ -1,5 +1,5 @@
 -- ============================================
--- ROME Warehouse Management System
+-- ROME Workforce Management System
 -- Database Schema for Supabase
 -- ============================================
 
